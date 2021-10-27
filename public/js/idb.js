@@ -1,4 +1,3 @@
-// variable to hold db connection
 let db;
 
 // establish connection to the IndexedDB database "budget_tracker", starting at version 1.
@@ -14,7 +13,6 @@ request.onupgradeneeded = function(event) {
 request.onsuccess = function(event) {
     // when db is successfully created or simply established a connection, save reference to db in global variable
     db = event.target.result;
-
     // check if app is online, running function to send local db to api if yes
     if (navigator.onLine) {
         uploadTransaction();
@@ -30,10 +28,8 @@ request.onerror = function(event) {
 function saveRecord(record) {
     // open a new transaction with the database with read and write permission.
     const transaction = db.transaction(['budget_events'], 'readwrite');
-
     // access the object store for budget_event
     const budgetObjectStore = transaction.objectStore('budget_events');
-
     // add record to your store with add method
     budgetObjectStore.add(record);
 }
@@ -41,10 +37,8 @@ function saveRecord(record) {
 function uploadTransaction() {
     // open a transaction on the db
     const transaction = db.transaction(['budget_events'], 'readwrite');
-
     // access the object store
     const budgetObjectStore = transaction.objectStore('budget_events');
-
     // get all records from store and set to a variable
     const getAll = budgetObjectStore.getAll();
 
